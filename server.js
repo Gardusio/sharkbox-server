@@ -1,15 +1,8 @@
 import { app, port } from './app.js';
-import sqlite from 'sqlite3';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-const { Database } = sqlite;
-
-const db = new Database('database.db', (err) => {
-  if (err) throw err;
-});
 
 const startServer = async () => {
   try {
@@ -27,5 +20,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-export { db }
