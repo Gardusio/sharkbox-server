@@ -24,7 +24,7 @@ mongoose.set('strictQuery', true);
 
 // Set up and enable Cross-Origin Resource Sharing (CORS)
 const corsOptions = {
-  origin: process.env.CROSS_ORIGIN || "http://localhost:5173",
+  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
   credentials: true,
 };
 app.use(cors(corsOptions));
