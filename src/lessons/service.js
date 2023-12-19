@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 
 export const removePartecipant = async (id, uid) => {
     const updated = await Repository.pullFromPartecipantAndCoda(id, uid);
-    console.log("updated", updated)
     return updated;
 }
 
@@ -39,14 +38,13 @@ export const update = async (lesson, slot) => {
 }
 
 export const addPartecipant = async (id, userId) => {
-
-    const lesson = await Repository.findById(id);
+    const lesson = await Repository.findById(id)
 
     if (lesson.max_partecipanti === lesson.partecipanti.length) {
-        return await Repository.update({ coda: [...lesson.coda, userId] })
+        return await Repository.addToQueue(id, userId)
     }
 
-    const updated = await Repository.update({ partecipanti: [...lesson.partecipanti, userId] })
+    const updated = await Repository.addPartecipant(id, userId)
     return updated
 }
 

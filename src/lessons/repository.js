@@ -5,6 +5,34 @@ export const save = async (lesson) => {
     return await Lessons.create(lesson);
 }
 
+export const addPartecipant = async (lessonId, pid) => {
+    return await Lessons
+        .findOneAndUpdate(
+            { id: lessonId },
+            {
+                $push: {
+                    partecipanti: pid
+                }
+            },
+            { new: true })
+        .populate("coda")
+        .populate("partecipanti");
+}
+
+export const addToQueue = async (lessonId, pid) => {
+    return await Lessons
+        .findOneAndUpdate(
+            { id: lessonId },
+            {
+                $push: {
+                    coda: pid
+                }
+            },
+            { new: true })
+        .populate("coda")
+        .populate("partecipanti");
+}
+
 export const remove = async (id) => {
     return await Lessons.findByIdAndDelete(id);
 }
@@ -12,9 +40,9 @@ export const remove = async (id) => {
 export const update = async (lesson) => {
     const { _id, ...updatedLesson } = lesson;
 
-    return await Lessons.findOneAndUpdate({ id: lesson._id }, { ...updatedLesson }, { new: true })
+    return (await Lessons.findOneAndUpdate({ id: lesson._id }, { ...updatedLesson }, { new: true })
         .populate("coda")
-        .populate("partecipanti");
+        .populate("partecipanti"));
 }
 
 export const pullFromPartecipantAndCoda = async (lessonId, uid) => {
