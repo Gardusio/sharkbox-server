@@ -9,7 +9,7 @@ export const remove = async (id) => await Slots.findByIdAndDelete(id);
 export const removeByCourse = async (id) => await Slots.deleteMany({ corso: id })
 
 export const update = async (slot) => {
-    const { _id, updatedSlot } = slot;
+    const { _id, ...updatedSlot } = slot;
     await Slots.findOneAndUpdate({ id: slot.id }, { ...updatedSlot }, { new: true })
 }
 
