@@ -29,7 +29,7 @@ const doRegister = async (req, res) => {
 }
 
 const getSession = async (req, res) => {
-    const user = await getById(req.user.id)
+    const user = await getById(req.user._id)
 
     return ok(res, toUserResponse(user))
 }

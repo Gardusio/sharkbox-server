@@ -11,7 +11,6 @@ export const remove = async (id) => {
 
 export const update = async (lesson) => {
     const { _id, ...updatedLesson } = lesson;
-    console.log("updated lesson", updatedLesson)
 
     return await Lessons.findOneAndUpdate({ id: lesson._id }, { ...updatedLesson }, { new: true })
         .populate("coda")

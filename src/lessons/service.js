@@ -41,14 +41,12 @@ export const update = async (lesson, slot) => {
 export const addPartecipant = async (id, userId) => {
 
     const lesson = await Repository.findById(id);
-    console.log("to add to lesson", lesson)
 
     if (lesson.max_partecipanti === lesson.partecipanti.length) {
         return await Repository.update({ coda: [...lesson.coda, userId] })
     }
 
     const updated = await Repository.update({ partecipanti: [...lesson.partecipanti, userId] })
-    console.log("updated", updated.partecipanti)
     return updated
 }
 

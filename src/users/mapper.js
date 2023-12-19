@@ -8,7 +8,8 @@ const toUserResponse = (user) => {
 
     return {
         id: user._id,
-        name: user.name
+        name: user.name,
+        role: user.role
     }
 }
 
