@@ -153,6 +153,7 @@ export const getByDate = async (date) => {
 }
 
 export const create = async (lesson) => {
-    return await Repository.save(lesson);
+    const saved = await Repository.save(lesson);
+    return saved;
 }
 
