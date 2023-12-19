@@ -44,7 +44,6 @@ export const toCourse = (courseDTO) => {
         created_at: dayjs().toString(),
         slots_end_date: computeEndDateIfAbsent(courseDTO.slots_end_date).toString(),
         slots_start_date: courseDTO.slots_start_date ? courseDTO.slots_start_date.toString() : dayjs().toString()
-
     }
 
     if (courseDTO.id) {

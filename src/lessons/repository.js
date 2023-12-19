@@ -10,7 +10,9 @@ export const remove = async (id) => {
 }
 
 export const update = async (lesson) => {
-    return await Lessons.findOneAndUpdate({ id: lesson.id }, { ...lesson }, { new: true })
+    const { _id, updatedLesson } = lesson;
+
+    return await Lessons.findOneAndUpdate({ id: lesson.id }, { ...updatedLesson }, { new: true })
         .populate("coda")
         .populate("partecipanti");
 }

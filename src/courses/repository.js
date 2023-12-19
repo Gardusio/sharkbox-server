@@ -11,7 +11,8 @@ export const remove = async (id) => {
 }
 
 export const update = async (course) => {
-    return await Courses.findOneAndUpdate({ id: course.id }, { ...course })
+    const { _id, ...updatedCourse } = course;
+    return await Courses.findOneAndUpdate({ id: course.id }, { ...updatedCourse })
 }
 
 export const findById = async (id) => {
