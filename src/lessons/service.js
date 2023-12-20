@@ -3,7 +3,17 @@ import * as SlotService from "../slots/service.js"
 import dayjs from 'dayjs'
 
 export const removePartecipant = async (id, uid) => {
+
     const updated = await Repository.pullFromPartecipantAndCoda(id, uid);
+    const mustPopFromQueue = updated.partecipanti.length === updated.max_partecipanti - 1
+
+    if (mustPopFromQueue) {
+        // retrive than clear the queue
+        const queuedUserIds = (await Repository.clearQueue(id)).coda;
+
+        // send a frkin notification to all queued user
+
+    }
     return updated;
 }
 
@@ -39,13 +49,19 @@ export const update = async (lesson, slot) => {
 
 export const addPartecipant = async (id, userId) => {
     const lesson = await Repository.findById(id)
+    const isFull = lesson.max_partecipanti === lesson.partecipanti.length;
+    const userInQueue = lesson.coda.some(uid => uid.toString() === userId)
+    const userAlreadyJoined = lesson.partecipanti.some(uid => uid.toString() === userId)
 
-    if (lesson.max_partecipanti === lesson.partecipanti.length) {
+    if (isFull && !userInQueue) {
         return await Repository.addToQueue(id, userId)
     }
 
-    const updated = await Repository.addPartecipant(id, userId)
-    return updated
+    if (!userAlreadyJoined && !userInQueue) {
+        return await Repository.addPartecipant(id, userId)
+    }
+
+    return lesson
 }
 
 export const getLesson = async (id) => {

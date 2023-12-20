@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { toUsersResponse } from "../users/mapper.js"
 
 export const toLessonsResponse = (lessons) => {
@@ -32,8 +31,6 @@ export const toLessonResponse = (l) => {
 }
 
 export const toLesson = (lessonDTO) => {
-    console.log("ldto", lessonDTO)
-
     const {
         type,
         max_partecipanti,
@@ -48,7 +45,7 @@ export const toLesson = (lessonDTO) => {
         partecipanti } = lessonDTO
 
     return {
-        data: getFormattedDate(date).format("DD/MM/YYYY"),
+        data: date,
         max_partecipanti,
         corso: course_id,
         anticipo_prenotazione,
@@ -58,14 +55,7 @@ export const toLesson = (lessonDTO) => {
         type,
         start,
         end,
-        coda: coda.map(p => p.id),
-        partecipanti: partecipanti.map(p => p.id)
+        coda: coda ? coda.map(p => p.id) : [],
+        partecipanti: partecipanti ? partecipanti.map(p => p.id) : []
     }
-}
-
-const getFormattedDate = (ddmmyyyy) => {
-    const split = ddmmyyyy.split("/");
-    const mmddyyyy = split[1] + "/" + split[0] + "/" + split[2];
-    const date = dayjs(mmddyyyy)
-    return date;
 }

@@ -37,8 +37,15 @@ export const remove = async (id) => {
     return await Lessons.findByIdAndDelete(id);
 }
 
+export const clearQueue = async (id) => {
+    return await Lessons.findByIdAndUpdate(
+        id,
+        { $set: { coda: [] } }
+    );
+}
+
 export const update = async (lesson) => {
-    const { _id, ...updatedLesson } = lesson;
+    const { _id, coda, partecipanti, ...updatedLesson } = lesson;
 
     return (await Lessons.findOneAndUpdate({ id: lesson._id }, { ...updatedLesson }, { new: true })
         .populate("coda")

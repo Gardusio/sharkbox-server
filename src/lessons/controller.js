@@ -3,7 +3,6 @@ import { toLesson, toLessonResponse, toLessonsResponse } from "./mapper.js";
 import * as LessonService from "./service.js";
 import * as UserService from "../users/service.js";
 
-import dayjs from "dayjs";
 import { toSlot } from "../slots/mapper.js";
 
 export const removePartecipant = async (req, res) => {
@@ -62,14 +61,8 @@ export const update = async (req, res) => {
 
 export const create = async (req, res) => {
     const dto = req.body;
-    const lessonDTO = {
-        ...dto,
-        date: dayjs(dto.date),
-        start: dto.start,
-        end: dto.end,
-    }
 
-    const lesson = await LessonService.create(toLesson(lessonDTO))
+    const lesson = await LessonService.create(toLesson(dto))
 
     return ok(res, lesson)
 }
