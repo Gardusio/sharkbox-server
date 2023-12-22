@@ -14,6 +14,7 @@ import { requestValidationErrorHandler } from './src/utils/validation/validation
 import { courseRouter } from './src/courses/router.js';
 import { slotRouter } from './src/slots/router.js';
 import { courseErrorHandler } from './src/courses/errors.js';
+import { messagesRouter } from './src/messages/routes.js';
 
 dotenv.config()
 
@@ -39,12 +40,12 @@ app.use(session({
 }));
 app.use(authenticate);
 
-
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/courses', courseRouter);
 app.use('/api/v1/slots', slotRouter);
 app.use('/api/v1/lessons', lessonRouter);
+app.use('/api/v1/messages', messagesRouter);
 
 
 app.use(dbErrorsHandler);

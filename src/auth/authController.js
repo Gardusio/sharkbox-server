@@ -24,8 +24,8 @@ const doLogout = (req, res) => {
 
 const doRegister = async (req, res) => {
     const userForm = req.body;
-    const newId = await create(userForm);
-    return ok(res, newId);
+    const newUser = await create(userForm);
+    return ok(res, newUser);
 }
 
 const getSession = async (req, res) => {

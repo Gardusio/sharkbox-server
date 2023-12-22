@@ -2,6 +2,19 @@ import * as Repository from "./repository.js";
 import * as SlotService from "../slots/service.js"
 import dayjs from 'dayjs'
 
+export const getByUser = async (userId) => {
+    const lessons = await Repository.findByUser(userId);
+
+    return lessons.filter(lesson => {
+        const splittedData = lesson.data.split("/")
+        const rearrangedString = `${splittedData[1]}/${splittedData[0]}/${splittedData[2]}`;
+        const rearranged = dayjs(rearrangedString)
+        const today = dayjs(dayjs().format("MM/DD/YYYY"))
+
+        return today.isSame(rearranged) || today.isBefore(rearranged)
+    })
+}
+
 export const removePartecipant = async (id, uid) => {
 
     const updated = await Repository.pullFromPartecipantAndCoda(id, uid);
@@ -49,6 +62,7 @@ export const update = async (lesson, slot) => {
 
 export const addPartecipant = async (id, userId) => {
     const lesson = await Repository.findById(id)
+    
     const isFull = lesson.max_partecipanti === lesson.partecipanti.length;
     const userInQueue = lesson.coda.some(uid => uid.toString() === userId)
     const userAlreadyJoined = lesson.partecipanti.some(uid => uid.toString() === userId)

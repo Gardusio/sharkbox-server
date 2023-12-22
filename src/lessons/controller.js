@@ -5,6 +5,13 @@ import * as UserService from "../users/service.js";
 
 import { toSlot } from "../slots/mapper.js";
 
+
+export const getByUser = async (req, res) => {
+
+    const lessons = await LessonService.getByUser(req.params.id)
+    return ok(res, toLessonsResponse(lessons))
+}
+
 export const removePartecipant = async (req, res) => {
     const { id, uid } = req.params;
 

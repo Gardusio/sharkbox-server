@@ -29,6 +29,10 @@ const hash = async (pass) => {
 export const create = async (userForm) => {
     let user;
 
+    let phone = userForm.phone ? userForm.phone.replaceAll(" ", "") : null
+
+    phone = phone.includes("+39") ? phone.substring(1) : "39" + phone
+
     if (!userForm.email || !userForm.password) {
         user = await save({
             name: userForm.name,
@@ -40,7 +44,8 @@ export const create = async (userForm) => {
         user = await save({
             ...userForm,
             hash: await hash(userForm.password),
-            role: "USER"
+            role: "USER",
+            phone: phone,
         });
     }
 

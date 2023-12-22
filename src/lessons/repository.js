@@ -1,14 +1,24 @@
 import Lessons from "./model.js"
 import mongoose from "mongoose";
 
+export const findByUser = async (userId) => {
+    return await Lessons.find({
+        $or: [
+            { partecipanti: userId },
+            { coda: userId }
+        ]
+    })
+        .populate("corso");
+}
+
 export const save = async (lesson) => {
     return await Lessons.create(lesson);
 }
 
 export const addPartecipant = async (lessonId, pid) => {
     return await Lessons
-        .findOneAndUpdate(
-            { id: lessonId },
+        .findByIdAndUpdate(
+            lessonId,
             {
                 $push: {
                     partecipanti: pid
@@ -21,8 +31,8 @@ export const addPartecipant = async (lessonId, pid) => {
 
 export const addToQueue = async (lessonId, pid) => {
     return await Lessons
-        .findOneAndUpdate(
-            { id: lessonId },
+        .findByIdAndUpdate(
+            lessonId,
             {
                 $push: {
                     coda: pid
@@ -47,15 +57,15 @@ export const clearQueue = async (id) => {
 export const update = async (lesson) => {
     const { _id, coda, partecipanti, ...updatedLesson } = lesson;
 
-    return (await Lessons.findOneAndUpdate({ id: lesson._id }, { ...updatedLesson }, { new: true })
+    return (await Lessons.findByIdAndUpdate(lesson._id, { ...updatedLesson }, { new: true })
         .populate("coda")
         .populate("partecipanti"));
 }
 
 export const pullFromPartecipantAndCoda = async (lessonId, uid) => {
     return await Lessons
-        .findOneAndUpdate(
-            { id: lessonId },
+        .findByIdAndUpdate(
+            lessonId,
             {
                 $pull: {
                     partecipanti: uid,
@@ -237,21 +247,6 @@ export const findByIdWithSlotAndCourseAndUsers = async (id) => {
         }
     ]))[0];
 }
-
-
-/*
-export const findByIdAndSlotIdWithSlotAndCourseName = (id, slot_id) => {
-
-    const query = `
-        SELECT lessons.id AS lessons_id, lessons.*, slots.start, slots.end, slots.id, courses.nome
-        FROM lessons
-        JOIN slots ON lessons.slot_id = slots.id
-        JOIN courses ON lessons.course_id = courses.id
-        WHERE lessons.id = '${id}' AND lessons.slot_id = '${slot_id}'
-    `
-    return dbGet(query, []);
-}
-*/
 
 export const findById = async (id) => {
     return await Lessons.findById(id);

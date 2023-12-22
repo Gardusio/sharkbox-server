@@ -13,6 +13,9 @@ const userSchema = new Schema({
     lastname: {
         type: String,
     },
+    phone: {
+        type: String,
+    },
     role: {
         type: String,
         enum: ['ADMIN', 'USER', "GUEST"],
