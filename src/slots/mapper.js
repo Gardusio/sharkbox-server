@@ -19,7 +19,7 @@ export const toSlots = (courseDTO, courseId) => {
 
             if (timeSlot.id) {
                 entity = {
-                    id: timeSlot.id,
+                    _id: timeSlot.id,
                     ...entity,
                 }
             }
@@ -27,7 +27,6 @@ export const toSlots = (courseDTO, courseId) => {
             slots.push(entity);
         }
     }
-
     return slots;
 }
 

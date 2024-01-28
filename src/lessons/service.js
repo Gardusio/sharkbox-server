@@ -62,7 +62,7 @@ export const update = async (lesson, slot) => {
 
 export const addPartecipant = async (id, userId) => {
     const lesson = await Repository.findById(id)
-    
+
     const isFull = lesson.max_partecipanti === lesson.partecipanti.length;
     const userInQueue = lesson.coda.some(uid => uid.toString() === userId)
     const userAlreadyJoined = lesson.partecipanti.some(uid => uid.toString() === userId)
@@ -149,6 +149,7 @@ const getFormattedDate = (ddmmyyyy) => {
 }
 
 export const updateScheduledLessons = async (course, slots) => {
+    console.log(slots)
     for (const slot of slots) {
 
         const existingDates = (await Repository.findAllBySlotId(slot._id))

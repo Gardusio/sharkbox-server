@@ -5,6 +5,9 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    colore: {
+        type: String
+    },
     created_at: {
         type: String,
     },

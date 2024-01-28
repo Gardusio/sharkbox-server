@@ -33,7 +33,7 @@ export const update = async (slot) => {
 }
 
 export const updateAll = async (slots) => {
-    return Promise.all(slots.map(async (slot) => await update(slot)))
+    return await Promise.all(slots.map(async (slot) => await update(slot)))
 }
 
 export const getById = async (id) => await Repository.findById(id)

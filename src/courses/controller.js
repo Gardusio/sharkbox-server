@@ -14,10 +14,11 @@ export const updateCourse = async (req, res) => {
     const updatedCourse = await CourseService.update(course);
 
     const slots = toSlots(courseDTO, course._id)
+    console.log(slots)
 
-    const existingSlots = await SlotService.updateAll(slots.filter(slot => slot.id));
-
-    const newSlots = await SlotService.createAll(slots.filter(slot => !slot.id));
+    const existingSlots = await SlotService.updateAll(slots.filter(slot => slot._id));
+    console.log(existingSlots)
+    const newSlots = await SlotService.createAll(slots.filter(slot => !slot._id));
 
     await LessonService.createScheduledLessons(updatedCourse, newSlots);
     await LessonService.updateScheduledLessons(updatedCourse, existingSlots);
